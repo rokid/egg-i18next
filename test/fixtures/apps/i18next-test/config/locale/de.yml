@@ -1,0 +1,2 @@
+hello: Hallo {{name}}
+interpolation: Deutsche foobar {{foobar}}

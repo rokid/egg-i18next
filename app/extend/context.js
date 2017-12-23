@@ -4,7 +4,11 @@ const debug = require('debug')('egg:plugin:i18next');
 
 function formatLocale(locale) {
   // support zh_CN, en_US => zh-CN, en-US
-  return locale.replace('_', '-').toLowerCase();
+  const [ lng, country ] = locale.replace('_', '-').split('-', 2);
+  if (country) {
+    return lng.toLowerCase() + '-' + country.toUpperCase();
+  }
+  return lng.toLowerCase();
 }
 
 module.exports = {
@@ -18,8 +22,7 @@ module.exports = {
       return this.__locale;
     }
     const { app } = this;
-    const { cookieField, queryField, localeAlias, defaultLocale, cookieMaxAge } = app.config.i18next;
-
+    const { cookieField, queryField, cookieMaxAge } = app.config.i18next;
     const cookieLocale = this.cookies.get(cookieField, { signed: false });
 
     // 1. Query
@@ -53,19 +56,12 @@ module.exports = {
           localeOrigin = 'header (only one accepted language)';
         }
       }
-
-      // all missing, set it to defaultLocale
-      if (!locale) {
-        locale = defaultLocale;
-        localeOrigin = 'default';
-      }
     }
 
-    // cookie alias
-    if (locale in localeAlias) {
-      const originalLocale = locale;
-      locale = localeAlias[locale];
-      debug('Used alias, received %s but using %s', originalLocale, locale);
+    // 4. all missing
+    if (!locale) {
+      debug('No locale detected');
+      return;
     }
 
     locale = formatLocale(locale);
