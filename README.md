@@ -20,10 +20,6 @@
 [download-image]: https://img.shields.io/npm/dm/egg-i18next.svg?style=flat-square
 [download-url]: https://npmjs.org/package/egg-i18next
 
-<!--
-Description here.
--->
-
 ## Install
 
 ```bash
@@ -45,6 +41,13 @@ exports.i18next = {
 ```js
 // {app_root}/config/config.default.js
 exports.i18next = {
+  queryField: 'locale',
+  cookieField: 'locale',
+  cookieMaxAge: 365 * 24 * 60 * 60 * 1000, // 1 year
+  loadPath: '/config/locale/{{lng}}.yml',
+  init: { // initialization config for i18next, refer to https://www.i18next.com/configuration-options.html for more details.
+    fallbackLng: 'en-US',
+  },
 };
 ```
 
@@ -56,7 +59,7 @@ see [config/config.default.js](config/config.default.js) for more detail.
 
 ## Questions & Suggestions
 
-Please open an issue [here](https://github.com/eggjs/egg/issues).
+Please open an issue [here](https://github.com/Rokid/egg-i18next/issues).
 
 ## License
 
