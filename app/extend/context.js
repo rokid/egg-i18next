@@ -2,6 +2,8 @@
 
 const debug = require('debug')('egg:plugin:i18next');
 
+const LocaleSymbol = Symbol('context#locale');
+
 function formatLocale(locale) {
   // support zh_CN, en_US => zh-CN, en-US
   const [ lng, country ] = locale.replace('_', '-').split('-', 2);
@@ -18,8 +20,8 @@ module.exports = {
    * @return {String} lower case locale string, e.g.: 'zh-cn', 'en-us'
    */
   get locale() {
-    if (this.__locale) {
-      return this.__locale;
+    if (this[LocaleSymbol]) {
+      return this[LocaleSymbol];
     }
     const { app } = this;
     const { cookieField, queryField, cookieMaxAge } = app.config.i18next;
