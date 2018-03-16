@@ -14,6 +14,11 @@ function formatLocale(locale) {
 }
 
 module.exports = {
+  __: function (...args) {
+    const { i18next } = this.app;
+
+    return i18next.t(...args);
+  },
   /**
    * get current request locale
    * @member Context#locale
