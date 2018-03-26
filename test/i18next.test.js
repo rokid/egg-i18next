@@ -4,7 +4,6 @@ const mock = require('egg-mock');
 const assert = require('assert');
 
 describe('test/i18n.test.js', () => {
-
   describe('ctx.__(key, value)', () => {
     let app;
     before(done => {

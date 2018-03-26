@@ -14,7 +14,7 @@ function formatLocale(locale) {
 }
 
 module.exports = {
-  __: function (...args) {
+  __(...args) {
     const { i18next } = this.app;
 
     return i18next.t(...args);
